@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/color-3.css">
+</head>
+<body>
+    <section class="homepage">
+        <div>
+            <h1>彩色識別度測驗</h1>
+            <div>在60秒內，<br>找到不同的顏色</div>
+        </div>
+        <button class="start-btn">開始</button>
+        <button class="continue-btn none">繼續</button>
+        <div>程式設計:Landyen</div>
+        <div class="logo">
+            <img src="./img/ahoy.jpg" alt="">
+        </div>
+    </section>
+
+    <section class="play-game none">
+        <nav>
+            <div class="time-area">
+                時間:<div class="time"></div>s
+            </div>
+            <button class="start-btn">開始</button>
+            <button class="stopTemp-btn">暫停</button>
+            <button class="continue-btn">繼續</button>
+        </nav>
+        <div class="boxes"></div>
+    </section>
+
+    </script>
+    <script>
+        const c =256;
+        let level = 1;
+        let count = 0;
+        const boxAll = document.querySelector('.boxes');
+       
+        game();
+        function game(){
+            let size = 100/level;
+            let color =`rgb(${Math.floor(Math.random()*c)},${Math.floor(Math.random()*c)},${Math.floor(Math.random()*c)})`;
+            boxAll.innerHTML = '';
+            for(let i=0; i < level**2; i++){
+                    boxAll.innerHTML +=`<div class="box answer-box" style="width:${size}%; height:${size}%; background-color:${color};"></div>`;
+                }
+                answer = Math.floor(Math.random()*level**2)+1;
+                let answerBox = document.querySelector(`.boxes .box:nth-child(${answer})`);
+                answerBox.style.opacity =`${0.5+level*0.01}`;
+               
+                let notAnswerBox = document.querySelectorAll(`.boxes .box:not(:nth-child(${answer}))`);
+                console .log(notAnswerBox);
+                notAnswerBox.forEach(function(box){
+                    box.addEventListener('click',function(){
+                        alert("錯了!")
+                    });
+                })
+                answerBox.addEventListener('click',function(){
+                    count++//答對了+1次
+                    if(count == level){
+                        level++;
+                        count = 0;
+                    }
+                    if(level > 20){
+                        alert("厲害");notAnswerBox
+                        level = 2;
+                        count = 0 ;
+                    }
+                    game();
+                });
+            }
+    </script>
+    <script>
+        const homepage = document.querySelector('.homepage');
+        const play_game = document.querySelector('.play-game');
+        const start_btn = document.querySelector('.start-btn');
+        const continue_btn = document.querySelector('.continue-btn');
+        const stopTemp_btn = document.querySelector('.stopTemp-btn');
+
+        const yourtime = 30;
+        let timeS = document.querySelector('.time');
+
+        let timeId;
+        function countdown(){
+            clearInterval(timeId);
+            timeId = setInterval(function(){
+                if(time ==0){
+                    alert('時間到！');
+                    homepage.classList.remove('none'); //顯示首頁
+                    play_game.classList.add('none');//隱藏遊戲頁面
+                    continue_btn.classList.add('none'); //隱藏繼續按鈕
+                    start_btn.innerHTML = "再玩一次";
+                    clearInterval(timeId);//清除計數器
+                    // boxAll.classList.add('bg-boxes');
+                }else{
+                    time--;
+                    timeS.innerHTML = time;
+                }
+            },1000);
+        }
+           start_btn.addEventListener('click', function () {
+            homepage.classList.add('none'); //隱藏首頁
+            play_game.classList.remove('none');//顯示遊戲頁面
+            continue_btn.classList.add('none'); //隱藏繼續按鈕
+            start_btn.innerHTML = "放棄重玩";
+            time = yourtime;
+            timeS.innerHTML = time;
+            alert("時間將從10秒開始計時！");
+            countdown();
+            game();
+        });
+
+        stopTemp_btn.addEventListener('click', function () {
+            homepage.classList.remove('none'); //顯示首頁
+            play_game.classList.add('none');//隱藏遊戲頁面
+            continue_btn.classList.remove('none'); //顯示繼續按鈕
+            clearInterval(timeId);//清除計數器
+        });
+
+        continue_btn.addEventListener('click', function () {
+            homepage.classList.add('none'); //隱藏首頁
+            play_game.classList.remove('none');//顯示遊戲頁面
+            countdown();//繼續計時
+        });
+
+        start_btn.addEventListener('click', function () {
+            homepage.classList.add('none'); //隱藏首頁
+            play_game.classList.remove('none');//顯示遊戲頁面
+            continue_btn.classList.add('none'); //隱藏繼續按鈕
+            start_btn.innerHTML = "放棄重玩";
+            time = yourtime;
+            timeS.innerHTML = time;
+            alert("時間將從10秒開始計時！");
+            countdown();
+            game();
+        });
+            stopTemp_btn.addEventListener('click', function () {
+            homepage.classList.remove('none'); //顯示首頁
+            play_game.classList.add('none');//隱藏遊戲頁面
+            continue_btn.classList.remove('none'); //顯示繼續按鈕
+            clearInterval(timeId);//清除計數器
+        });
+            continue_btn.addEventListener('click', function () {
+            homepage.classList.add('none'); //隱藏首頁
+            play_game.classList.remove('none');//顯示遊戲頁面
+            countdown();//繼續計時
+        });
+        //     document.querySelector('.start-btn').addEventListener('click',function(){
+        //         boxAll.classList.remove('bg-boxes');
+        //         time = yourtime;
+        //         timeS.innerHTML = time;
+        //         alert("時間將從10秒開始計時!");
+        //         countdown();
+        //         game();
+        // });
+
+        // document.querySelector('.stopTemp-btn').addEventListener('click',function(){
+        //     clearInterval(timeId);
+        // });
+
+        // document.querySelector('.continue-btn').addEventListener('click',function(){
+        //     countdown();
+        // });
+    </script>
+</body>
+</html>

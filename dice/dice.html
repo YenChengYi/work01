@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/dice.css">
+</head>
+<body>
+    <main>
+        <div class="pic">
+            <div class="dice"><img id="dice_img1" src="./img/1.png" width="200px" height="200px" alt=""></div>
+            <div class="dice"><img id="dice_img2" src="./img/1.png" width="200px" height="200px" alt=""></div>
+            <div class="dice"><img id="dice_img3" src="./img/1.png" width="200px" height="200px" alt=""></div>
+            <div class="box">
+                <div class="result"></div>
+            </div>
+        </div>
+        <div class="contom">
+            <button class="start">開始<span></span></button>
+            <div class="total"></div>
+            <div class="outcome"></div>
+        </div>
+
+    </main>
+    <script>
+        //三個骰子
+
+        i=1
+        //按鈕設定
+        let btn =document.querySelector('.start');
+        let end =document.querySelector('.total');
+        let diceimg1 =document.querySelector('.dice_img1');
+        let diceimg2 =document.querySelector('.dice_img2');
+        let diceimg3 =document.querySelector('.dice_img3');
+        let list =document.querySelector('.outcome');
+        //按下後開始取數值
+        btn.addEventListener('click',function(){
+            i=0;
+            list.innerHTML ='';
+            do{
+                i++
+                dice1 = Math.floor(Math.random()*6 +1);
+                console.log(dice1);
+                dice2 = Math.floor(Math.random()*6 +1);
+                console.log(dice2);
+                dice3 = Math.floor(Math.random()*6 +1);
+                console.log(dice3);
+
+                console.log("第"+ i +"次");
+                list.innerHTML +='第' + i +'次'+'('+ dice1 + ',' + dice2 + ',' + dice3 + ')' + ' ' + ' ' ;
+              
+                dice_img1.src= `./img/${dice1}.png`;
+                dice_img2.src= `./img/${dice2}.png`;
+                dice_img3.src= `./img/${dice3}.png`;
+                if(i == 10){
+                    break
+                }else{
+                    console.log('第'+ i + '次', dice1, dice2, dice3);
+                    console.log('共'+ i + '次');
+                    end.innerHTML ='第'+ i +'次' +' ' + dice1 +','+ dice2+ ',' + dice3;
+                } 
+            }while(dice1 != dice2 || dice2 != dice3 || dice2 != dice3) 
+            
+        })
+
+    </script>
+</body>
+</html>

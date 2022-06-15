@@ -1,0 +1,66 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+   margin: 0;
+   padding: 0;
+   background-color: #f06060;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+}
+
+.boxes{
+   width: 500px;
+   height: 500px;
+   padding: 10px;
+   background-color: white;
+   border-radius: 20px;
+   display: flex;
+   justify-content: center;
+   flex-wrap: wrap; 
+}
+
+.box{
+   width: 50%;
+   height: 50%;
+   background-color: green;
+   border: 5px white solid ;
+   border-radius: 10px;
+}
+nav {
+   display: flex;
+   margin-bottom: 20px;
+}
+nav {
+   display: flex;
+   margin-bottom: 20px;
+}
+
+.time-area {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-right: 10px;
+}
+
+.time-area div {
+   /* margin-right: 0px; */
+   padding: 5px;
+}
+
+button {
+   margin-right: 5px;
+}
+
+.bg-boxes {
+   background-image: url(../img/ahoy.jpg);
+   background-position: center;
+   background-size: cover;
+}
+
+.none {
+   display: none;
+}

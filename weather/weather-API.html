@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/weather-API.css">
+</head>
+<body>
+
+    <section>
+        <div class="title">天氣預報
+            <div class="line"></div>
+        </div>
+        <div class="btnList">
+            <div class="btn btnAll">全島</div>
+            <div class="btn btnNorth">北部</div>
+            <div class="btn btnCenter">中部</div>
+            <div class="btn btnSouth">南部</div>
+            <div class="btn btnEast">東部</div>
+            <div class="btn btnOut">離島</div>
+        </div>
+        <div class="card-gion">
+            <div class="single-card">
+                <p>台中市</p>
+                <p>晴天</p>
+                <p>2022-04-27 06:00</p>
+                <p>2022-04-27 08:00</p>
+            </div>
+        </div>
+    </section>
+
+        <script>
+            let NorBtn = document.querySelector('.btnNorth')//北部
+            let CenBtn = document.querySelector('.btnCenter')//中部
+            let SorBtn = document.querySelector('.btnSouth')//南部
+            let EasBtn = document.querySelector('.btnEast')//東部
+            let OutBtn = document.querySelector('.btnOut')//離島
+            let AllBtn = document.querySelector('.btnAll')//全島
+
+            let url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-67481596-A6EF-4CAE-B1A6-E349BB89C40A'
+
+
+            let cities =[
+            ['基隆市', '新北市', '臺北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '南投縣', '彰化縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '宜蘭縣', '花蓮縣', '臺東縣', '澎湖縣', '金門縣', '連江縣'],
+            ['基隆市', '新北市', '臺北市', '桃園市', '新竹市', '新竹縣', '苗栗縣'], ['臺中市', '南投縣', '彰化縣', '雲林縣', '嘉義市', '嘉義縣'],
+            ['臺南市', '高雄市', '屏東縣'],['宜蘭縣', '花蓮縣', '臺東縣'], ['澎湖縣', '金門縣', '連江縣'],
+            ]
+            let nowCities;//表示天氣卡處理
+            let orgData = {}//組織過的資料
+            nowCities  = cities[0];
+            
+            fetch_data();//取資料
+
+            function fetch_data(){
+                fetch(url)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        console.log(data);
+                        organizationData(data);
+                        arrange_cities();
+                });
+            }
+            function organizationData(data){
+                let locations = data.records.location;//所有城市
+                locations.forEach(location =>{
+                    console.log('location =',location);
+                    let locationName = location.locationName;
+                    console.log(locationName);
+                    let loc_wE_t_0 = location.weatherElement[0].time[0];//取出時間訊息
+                    
+                    let startTime = loc_wE_t_0.startTime;
+                    let endTime = loc_wE_t_0.endTime;
+                    let wx = loc_wE_t_0.parameter.parameterName;
+                    let maxT = location.weatherElement[4].time[0].parameter.parameterName;
+                    let minT = location.weatherElement[2].time[0].parameter.parameterName;
+                    let pop = location.weatherElement[1].time[0].parameter.parameterName;
+                    let ci = location.weatherElement[3].time[0].parameter.parameterName;
+                    
+                    orgData[locationName] = {
+                        'wx': wx, 'startTime': startTime, 'endTime': endTime, maxT: maxT, minT: minT,
+                    pop: pop, ci: ci
+                    }
+                });
+            }
+
+            function arrange_cities(){
+                let card_gion = document.querySelector('.card-gion')
+                card_gion.innerHTML = '';
+                nowCities.forEach((city, index) => {
+                    let cityData =orgData[city]
+                    console.log(cityData.endTime);
+                    card_gion.innerHTML +=
+                    //${index}單張卡片切換的內容
+                    `<div class="single-card">
+                        <p class="cityP">${city}</p>
+                        <p class="wxP">${cityData.wx}</p>
+                        <div class="timep">
+                            <p>${cityData.startTime.substr(0, 16).replaceAll('-', '/')}</p><p>~</p>
+                            <p>${cityData.endTime.substr(0, 16).replaceAll('-', '/')}</p>
+                        </div>
+                    </div>
+                        `;
+                });
+
+                NorBtn.addEventListener('click',function (){
+                    card_gion.innerHTML = '';
+                    nowCities = cities[1];
+                    arrange_cities()
+                });
+
+                CenBtn.addEventListener('click',function (){
+                    card_gion.innerHTML = '';
+                    nowCities = cities[2];
+                    arrange_cities()
+                });
+
+                SorBtn.addEventListener('click',function (){
+                    card_gion.innerHTML = '';
+                    nowCities = cities[3];
+                    arrange_cities()
+                });
+
+                EasBtn.addEventListener('click',function (){
+                    card_gion.innerHTML = '';
+                    nowCities = cities[4];
+                    arrange_cities()
+                });
+
+                OutBtn.addEventListener('click',function (){
+                    card_gion.innerHTML = '';
+                    nowCities = cities[5];
+                    arrange_cities()
+                });
+
+                AllBtn.addEventListener('click',function (){
+                    card_gion.innerHTML = '';
+                    nowCities = cities[0];
+                    arrange_cities()
+                });
+
+
+            }
+
+
+        </script>
+  
+</body>
+</html>
